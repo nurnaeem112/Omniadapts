@@ -3,11 +3,16 @@ import { Polar } from '@polar-sh/sdk';
 
 const polar = new Polar({
   accessToken: process.env.POLAR_ACCESS_TOKEN || '',
-  server: 'sandbox', // Change to 'production' for live
+  server: (process.env.POLAR_ENV as 'sandbox' | 'production') || 'sandbox',
 });
 
 export async function POST(req: Request) {
   try {
+    if (!process.env.POLAR_ACCESS_TOKEN) {
+      console.error('POLAR_ACCESS_TOKEN is not set');
+      return NextResponse.json({ error: 'Polar Access Token is not configured' }, { status: 500 });
+    }
+
     const { productId, userId, userEmail } = await req.json();
 
     if (!productId || !userId) {

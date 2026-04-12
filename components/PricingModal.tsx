@@ -66,9 +66,9 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
       console.log('Checkout response:', data);
       
       if (data.url) {
-        // Open in new tab to avoid iframe restrictions
-        window.open(data.url, '_blank');
+        // Redirect in same tab to avoid popup blockers
         onClose();
+        window.location.href = data.url;
       } else {
         throw new Error(data.error || 'Failed to create checkout session');
       }
