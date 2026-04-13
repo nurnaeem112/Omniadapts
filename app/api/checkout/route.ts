@@ -7,6 +7,8 @@ const polar = new Polar({
 });
 
 export async function POST(req: Request) {
+
+
   try {
     if (!process.env.POLAR_ACCESS_TOKEN) {
       console.error('POLAR_ACCESS_TOKEN is not set');
@@ -34,3 +36,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+
+
+
