@@ -7,39 +7,55 @@ const polar = new Polar({
 });
 
 export async function POST(req: Request) {
-
-
-  console.log("TOKEN:", process.env.POLAR_ACCESS_TOKEN)
-
-
   try {
+    const { productId, userId, userEmail } = await req.json();
+
+    console.log('--- Checkout Request ---');
+    console.log('Product ID:', productId);
+    console.log('User ID:', userId);
+    console.log('User Email:', userEmail);
+
     if (!process.env.POLAR_ACCESS_TOKEN) {
       console.error('POLAR_ACCESS_TOKEN is not set');
       return NextResponse.json({ error: 'Polar Access Token is not configured' }, { status: 500 });
     }
 
-    const { productId, userId, userEmail } = await req.json();
-
     if (!productId || !userId) {
+      console.error('Missing required fields:', { productId, userId });
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'http://localhost:3000';
+    const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const successUrl = `${normalizedBaseUrl}/profile?checkout=success`;
+    
+    console.log('Success URL:', successUrl);
+
     const checkout = await polar.checkouts.create({
       products: [productId],
-      successUrl: `${process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL}/profile?checkout=success`,
+      successUrl: successUrl,
       customerEmail: userEmail,
       metadata: {
         userId: userId,
       },
     });
 
+    console.log('Checkout created successfully:', checkout.url);
     return NextResponse.json({ url: checkout.url });
   } catch (error: any) {
-    console.error('Checkout error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('--- Checkout Error ---');
+    console.error('Error message:', error.message);
+    
+    if (error.response && typeof error.response.text === 'function') {
+      try {
+        const details = await error.response.text();
+        console.error('Polar Response Error:', details);
+      } catch (e) {}
+    }
+
+    return NextResponse.json({ 
+      error: 'Failed to create checkout session',
+      details: error.message 
+    }, { status: 500 });
   }
 }
-
-
-
-
