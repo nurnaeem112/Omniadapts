@@ -25,7 +25,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'http://localhost:3000';
+    const getBaseUrl = () => {
+      if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
+      if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+      if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+      return process.env.APP_URL || 'http://localhost:3000';
+    };
+    const baseUrl = getBaseUrl();
     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
     const successUrl = `${normalizedBaseUrl}/profile?checkout=success`;
     
@@ -55,7 +61,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ 
       error: 'Failed to create checkout session',
-      details: error.message 
+      details: error?.message || 'Unknown server error'
     }, { status: 500 });
   }
 }

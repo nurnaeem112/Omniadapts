@@ -348,30 +348,20 @@ function ToolContent() {
     setActiveTab('output');
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-      if (!apiKey) throw new Error("Gemini API key is not configured.");
+      const apiKey = "AIzaSyBQFpSVF640-UKxatAtZRVvcKRBLuDWTPU";
       
       const ai = new GoogleGenAI({ apiKey });
-      const model = "gemini-1.5-flash"; // Using a stable model name
+      const model = "gemini-2.0-flash"; // Using newest stable model name
       
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
         ...customUrls
       ].join(', ');
 
-      const prompt = `Adapt the following product information for these platforms: ${platformNames}.
-
-Product/Service Name: ${formData.name}
-One-sentence Description: ${formData.description}
-Main Goal/Intention: ${formData.goal}
-Target Audience: ${formData.audience}
-Problem Solved: ${formData.problem}
-Emotional Benefit: ${formData.benefit}
-Call to Action: ${formData.cta}
-Links/Keywords: ${formData.keywords}`;
+      const prompt = `Adapt the following product information for these platforms: ${platformNames}.\n\nProduct/Service Name: ${formData.name}\nOne-sentence Description: ${formData.description}\nMain Goal/Intention: ${formData.goal}\nTarget Audience: ${formData.audience}\nProblem Solved: ${formData.problem}\nEmotional Benefit: ${formData.benefit}\nCall to Action: ${formData.cta}\nLinks/Keywords: ${formData.keywords}`;
 
       const response = await (ai as any).models.generateContent({
-        model,
+        model: model,
         contents: prompt,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,

@@ -52,8 +52,19 @@ export default function PricingPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Server responded with ${response.status}`);
+        let errorMsg = `Server responded with ${response.status}`;
+        try {
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await response.json();
+            errorMsg = errorData.error || errorData.details || errorMsg;
+          } else {
+            errorMsg = await response.text();
+          }
+        } catch (e) {
+          console.error("Failed to parse error response", e);
+        }
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
