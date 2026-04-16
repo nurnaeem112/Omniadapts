@@ -351,7 +351,7 @@ function ToolContent() {
       const apiKey = "AIzaSyBQFpSVF640-UKxatAtZRVvcKRBLuDWTPU";
       
       const ai = new GoogleGenAI({ apiKey });
-      const model = "gemini-2.0-flash"; // Using newest stable model name
+      const model = "gemini-3.0-flash"; // Using gemini-3.0-flash as requested
       
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
