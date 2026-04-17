@@ -6,20 +6,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { supabase } from '../supabaseClient';
-import { 
-  Send, 
-  Copy, 
-  RefreshCw, 
-  Sparkles, 
-  Twitter, 
-  Linkedin, 
-  Instagram, 
-  Facebook, 
-  Youtube, 
-  Mail, 
-  MessageSquare, 
-  Hash, 
-  Layout, 
+import {
+  Send,
+  Copy,
+  RefreshCw,
+  Sparkles,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Facebook,
+  Youtube,
+  Mail,
+  MessageSquare,
+  Hash,
+  Layout,
   ExternalLink,
   Check,
   Plus,
@@ -174,10 +174,10 @@ export default function ToolPage() {
     sessionStorage.setItem('omni_results', JSON.stringify(results));
     sessionStorage.setItem('omni_viewMode', viewMode);
     sessionStorage.setItem('omni_activeTab', activeTab);
-    
+
     if (error) sessionStorage.setItem('omni_error', error);
     else sessionStorage.removeItem('omni_error');
-    
+
     if (activePlatform) sessionStorage.setItem('omni_activePlatform', activePlatform);
     else sessionStorage.removeItem('omni_activePlatform');
   }, [formData, selectedPlatforms, customUrls, results, viewMode, activeTab, error, activePlatform]);
@@ -290,7 +290,7 @@ export default function ToolPage() {
   };
 
   const togglePlatform = (id: string) => {
-    setSelectedPlatforms(prev => 
+    setSelectedPlatforms(prev =>
       prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
     );
   };
@@ -330,8 +330,8 @@ export default function ToolPage() {
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const model = "gemini-3-flash-preview";
-      
+      const model = "gemini-3-flash";
+
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
         ...customUrls
@@ -360,7 +360,7 @@ Links/Keywords: ${formData.keywords}`;
 
       const text = response.text || '';
       const parsedResults = parseResults(text);
-      
+
       // Save to Supabase
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -393,7 +393,7 @@ Links/Keywords: ${formData.keywords}`;
       }
 
       setResults(parsedResults);
-      
+
       const firstPlatform = Object.keys(parsedResults)[0];
       if (firstPlatform) {
         setActivePlatform(firstPlatform);
@@ -413,9 +413,9 @@ Links/Keywords: ${formData.keywords}`;
     for (let i = 1; i < sections.length; i += 2) {
       const platformName = sections[i].trim().toUpperCase();
       const content = sections[i + 1].trim();
-      
-      const platform = PLATFORMS.find(p => 
-        platformName === p.name.toUpperCase() || 
+
+      const platform = PLATFORMS.find(p =>
+        platformName === p.name.toUpperCase() ||
         platformName === p.id.toUpperCase() ||
         platformName.includes(p.name.toUpperCase()) ||
         p.name.toUpperCase().includes(platformName)
@@ -469,7 +469,7 @@ Links/Keywords: ${formData.keywords}`;
       const p = PLATFORMS.find(plat => plat.id === id) || { name: id };
       return `--- ${p.name.toUpperCase()} ---\nStrategy: ${res.explanation}\nTitle: ${res.title}\nDescription: ${res.description}\nTags: ${res.tags}\n\n`;
     }).join('\n');
-    
+
     navigator.clipboard.writeText(allText);
     setCopiedId('all-platforms');
     setTimeout(() => setCopiedId(null), 2000);
@@ -508,7 +508,7 @@ Links/Keywords: ${formData.keywords}`;
   return (
     <div className="py-12 min-h-screen relative">
       <div className="absolute inset-0 bg-grid pointer-events-none" />
-      
+
       {/* Mobile Tab Switcher */}
       <div className="lg:hidden flex p-1.5 bg-neutral border border-secondary/10 rounded-full mb-8 mx-4 relative z-10">
         <button
@@ -536,7 +536,7 @@ Links/Keywords: ${formData.keywords}`;
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="p-6 bg-red-50 border border-red-100 text-red-600 rounded-[2.5rem] text-xs font-black uppercase tracking-widest flex items-center gap-4 shadow-sm mb-8"
@@ -548,7 +548,7 @@ Links/Keywords: ${formData.keywords}`;
               <p className="text-red-800 mb-0.5">Generation Error</p>
               <p className="text-red-500/80 font-bold normal-case">{error}</p>
             </div>
-            <button 
+            <button
               onClick={() => setError(null)}
               className="p-2 hover:bg-red-100 rounded-full transition-colors"
             >
@@ -565,7 +565,7 @@ Links/Keywords: ${formData.keywords}`;
           "lg:col-span-5 space-y-8 lg:sticky lg:top-24",
           activeTab !== 'input' && "hidden lg:block"
         )}>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-primary rounded-[3rem] border border-secondary/10 p-8 shadow-sm space-y-8"
@@ -579,7 +579,7 @@ Links/Keywords: ${formData.keywords}`;
                 <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Define your product essence</p>
               </div>
             </div>
-            
+
             <div className="space-y-6">
               <div className="group">
                 <label className="flex items-center gap-1.5 text-[10px] font-black text-secondary/40 uppercase tracking-widest mb-2 group-focus-within:text-secondary transition-colors">
@@ -673,7 +673,7 @@ Links/Keywords: ${formData.keywords}`;
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -689,7 +689,7 @@ Links/Keywords: ${formData.keywords}`;
                   <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Select your targets</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={selectAll}
                 className="text-[10px] font-black text-secondary uppercase tracking-widest hover:text-secondary/60 transition-colors"
               >
@@ -697,42 +697,42 @@ Links/Keywords: ${formData.keywords}`;
               </button>
             </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {PLATFORMS.map((platform) => (
-                        <button
-                          key={platform.id}
-                          onClick={() => togglePlatform(platform.id)}
-                          className={cn(
-                            "flex flex-col items-center justify-center gap-3 p-4 rounded-[2rem] border text-[10px] font-black uppercase tracking-widest transition-all relative group",
-                            selectedPlatforms.includes(platform.id)
-                              ? "bg-secondary border-secondary text-neutral shadow-xl scale-[1.02]"
-                              : "bg-neutral border-secondary/5 text-secondary/40 hover:border-secondary/20 hover:bg-neutral/80"
-                          )}
-                        >
-                          <div className={cn("w-6 h-6 transition-transform group-hover:scale-110 flex items-center justify-center", !selectedPlatforms.includes(platform.id) && "opacity-40")}>
-                            {platform.icon ? (
-                              <platform.icon className={cn("w-full h-full", selectedPlatforms.includes(platform.id) ? "text-neutral" : "text-secondary")} />
-                            ) : (
-                              <img 
-                                src={platform.iconUrl} 
-                                alt={platform.name} 
-                                className={cn("w-full h-full object-contain", selectedPlatforms.includes(platform.id) ? "brightness-0 invert" : "")}
-                                referrerPolicy="no-referrer"
-                              />
-                            )}
-                          </div>
-                          <span className="truncate w-full text-center">{platform.name.split(' ')[0]}</span>
-                          {selectedPlatforms.includes(platform.id) && (
-                            <motion.div 
-                              layoutId="active-check"
-                              className="absolute top-2 right-2"
-                            >
-                              <Check className="w-3 h-3 text-neutral" />
-                            </motion.div>
-                          )}
-                        </button>
-                      ))}
-                    </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {PLATFORMS.map((platform) => (
+                <button
+                  key={platform.id}
+                  onClick={() => togglePlatform(platform.id)}
+                  className={cn(
+                    "flex flex-col items-center justify-center gap-3 p-4 rounded-[2rem] border text-[10px] font-black uppercase tracking-widest transition-all relative group",
+                    selectedPlatforms.includes(platform.id)
+                      ? "bg-secondary border-secondary text-neutral shadow-xl scale-[1.02]"
+                      : "bg-neutral border-secondary/5 text-secondary/40 hover:border-secondary/20 hover:bg-neutral/80"
+                  )}
+                >
+                  <div className={cn("w-6 h-6 transition-transform group-hover:scale-110 flex items-center justify-center", !selectedPlatforms.includes(platform.id) && "opacity-40")}>
+                    {platform.icon ? (
+                      <platform.icon className={cn("w-full h-full", selectedPlatforms.includes(platform.id) ? "text-neutral" : "text-secondary")} />
+                    ) : (
+                      <img
+                        src={platform.iconUrl}
+                        alt={platform.name}
+                        className={cn("w-full h-full object-contain", selectedPlatforms.includes(platform.id) ? "brightness-0 invert" : "")}
+                        referrerPolicy="no-referrer"
+                      />
+                    )}
+                  </div>
+                  <span className="truncate w-full text-center">{platform.name.split(' ')[0]}</span>
+                  {selectedPlatforms.includes(platform.id) && (
+                    <motion.div
+                      layoutId="active-check"
+                      className="absolute top-2 right-2"
+                    >
+                      <Check className="w-3 h-3 text-neutral" />
+                    </motion.div>
+                  )}
+                </button>
+              ))}
+            </div>
 
             <div className="space-y-4 pt-2">
               <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em] flex items-center gap-2">
@@ -757,23 +757,23 @@ Links/Keywords: ${formData.keywords}`;
               </div>
               <AnimatePresence>
                 {customUrls.length > 0 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     className="flex flex-wrap gap-2 pt-2"
                   >
                     {customUrls.map((url) => (
-                      <motion.div 
+                      <motion.div
                         layout
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
-                        key={url} 
+                        key={url}
                         className="flex items-center gap-2 px-4 py-2 bg-neutral border border-secondary/10 rounded-full text-[10px] font-black text-secondary/60 group uppercase tracking-widest"
                       >
                         <span className="max-w-[120px] truncate">{url.replace('https://', '')}</span>
-                        <button 
+                        <button
                           onClick={() => removeUrl(url)}
                           className="hover:text-red-500 transition-colors"
                         >
@@ -821,7 +821,7 @@ Links/Keywords: ${formData.keywords}`;
                   <h2 className="text-lg font-black text-secondary tracking-tight">History</h2>
                   <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Recent generations</p>
                 </div>
-                <button 
+                <button
                   onClick={clearHistory}
                   className="text-[10px] font-black text-red-500/40 hover:text-red-500 uppercase tracking-widest transition-colors"
                 >
@@ -859,9 +859,9 @@ Links/Keywords: ${formData.keywords}`;
                             {p.icon ? (
                               <p.icon className="w-full h-full text-secondary opacity-40" />
                             ) : (
-                              <img 
-                                src={p.iconUrl} 
-                                alt={p.name} 
+                              <img
+                                src={p.iconUrl}
+                                alt={p.name}
                                 className="w-full h-full object-contain opacity-40"
                                 referrerPolicy="no-referrer"
                               />
@@ -878,7 +878,7 @@ Links/Keywords: ${formData.keywords}`;
         </div>
 
         {/* Output Section */}
-        <div 
+        <div
           ref={resultsRef}
           className={cn(
             "lg:col-span-7 space-y-12",
@@ -887,7 +887,7 @@ Links/Keywords: ${formData.keywords}`;
         >
           <AnimatePresence mode="wait">
             {Object.keys(results).length > 0 ? (
-              <motion.div 
+              <motion.div
                 key="results"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -917,7 +917,7 @@ Links/Keywords: ${formData.keywords}`;
                         List All
                       </button>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setViewMode(viewMode === 'tabs' ? 'list' : 'tabs')}
                       className="flex items-center gap-3 px-5 py-2.5 bg-neutral rounded-full border border-secondary/10 shadow-sm hover:border-secondary/30 transition-all group"
                     >
@@ -936,7 +936,7 @@ Links/Keywords: ${formData.keywords}`;
                       <div className="relative group/scroll">
                         <AnimatePresence>
                           {canScrollLeft && (
-                            <motion.button 
+                            <motion.button
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.8 }}
@@ -947,8 +947,8 @@ Links/Keywords: ${formData.keywords}`;
                             </motion.button>
                           )}
                         </AnimatePresence>
-                        
-                        <div 
+
+                        <div
                           ref={scrollRef}
                           onScroll={checkScroll}
                           className="flex items-center gap-3 overflow-x-auto scrollbar-custom pb-4 px-10 scroll-smooth"
@@ -977,9 +977,9 @@ Links/Keywords: ${formData.keywords}`;
                                   {platform.icon ? (
                                     <platform.icon className={cn("w-full h-full", activePlatform === platform.id ? "text-neutral" : "text-secondary")} />
                                   ) : (
-                                    <img 
-                                      src={platform.iconUrl} 
-                                      alt={platform.name} 
+                                    <img
+                                      src={platform.iconUrl}
+                                      alt={platform.name}
                                       className={cn("w-full h-full object-contain", activePlatform === platform.id ? "brightness-0 invert" : "")}
                                       referrerPolicy="no-referrer"
                                     />
@@ -992,7 +992,7 @@ Links/Keywords: ${formData.keywords}`;
 
                         <AnimatePresence>
                           {canScrollRight && (
-                            <motion.button 
+                            <motion.button
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.8 }}
@@ -1012,7 +1012,7 @@ Links/Keywords: ${formData.keywords}`;
                         .map((platform) => {
                           const res = results[platform.id];
                           return (
-                            <motion.div 
+                            <motion.div
                               key={platform.id}
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -1025,9 +1025,9 @@ Links/Keywords: ${formData.keywords}`;
                                     {platform.icon ? (
                                       <platform.icon className="w-full h-full text-secondary" />
                                     ) : (
-                                      <img 
-                                        src={platform.iconUrl} 
-                                        alt={platform.name} 
+                                      <img
+                                        src={platform.iconUrl}
+                                        alt={platform.name}
                                         className="w-full h-full object-contain"
                                         referrerPolicy="no-referrer"
                                       />
@@ -1038,7 +1038,7 @@ Links/Keywords: ${formData.keywords}`;
                                     <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Platform Specific Adaptation</p>
                                   </div>
                                 </div>
-                                <button 
+                                <button
                                   onClick={() => copyAll(platform.id)}
                                   className="p-3.5 bg-primary border border-secondary/10 rounded-full hover:bg-secondary transition-all group relative shadow-sm"
                                   title="Copy All"
@@ -1053,7 +1053,7 @@ Links/Keywords: ${formData.keywords}`;
                                   )}
                                 </button>
                               </div>
-                              
+
                               <div className="p-10 space-y-10">
                                 {/* Strategy */}
                                 <div className="relative pl-6">
@@ -1068,7 +1068,7 @@ Links/Keywords: ${formData.keywords}`;
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Hook / Headline</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.title, `${platform.id}-title`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1085,7 +1085,7 @@ Links/Keywords: ${formData.keywords}`;
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Body Copy</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.description, `${platform.id}-desc`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1102,7 +1102,7 @@ Links/Keywords: ${formData.keywords}`;
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Keywords & Tags</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.tags, `${platform.id}-tags`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1127,7 +1127,7 @@ Links/Keywords: ${formData.keywords}`;
                       .map((platform) => {
                         const res = results[platform.id];
                         return (
-                          <motion.div 
+                          <motion.div
                             key={platform.id}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -1139,9 +1139,9 @@ Links/Keywords: ${formData.keywords}`;
                                   {platform.icon ? (
                                     <platform.icon className="w-full h-full text-secondary" />
                                   ) : (
-                                    <img 
-                                      src={platform.iconUrl} 
-                                      alt={platform.name} 
+                                    <img
+                                      src={platform.iconUrl}
+                                      alt={platform.name}
                                       className="w-full h-full object-contain"
                                       referrerPolicy="no-referrer"
                                     />
@@ -1149,7 +1149,7 @@ Links/Keywords: ${formData.keywords}`;
                                 </div>
                                 <h3 className="text-lg font-black text-secondary tracking-tight">{platform.name}</h3>
                               </div>
-                              <button 
+                              <button
                                 onClick={() => copyAll(platform.id)}
                                 className="p-2.5 bg-primary border border-secondary/10 rounded-full hover:bg-secondary transition-all group relative"
                               >
@@ -1196,7 +1196,7 @@ Links/Keywords: ${formData.keywords}`;
                 )}
               </motion.div>
             ) : isGenerating ? (
-              <motion.div 
+              <motion.div
                 key="loading"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -1204,7 +1204,7 @@ Links/Keywords: ${formData.keywords}`;
                 className="h-full min-h-[700px] flex flex-col items-center justify-center text-center p-16 bg-primary rounded-[4rem] border border-secondary/10 shadow-sm"
               >
                 <div className="relative mb-12">
-                  <motion.div 
+                  <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                     className="w-32 h-32 border-4 border-secondary/5 border-t-secondary rounded-full"
@@ -1219,7 +1219,7 @@ Links/Keywords: ${formData.keywords}`;
                 </p>
                 <div className="mt-12 flex gap-3">
                   {[0, 1, 2].map(i => (
-                    <motion.div 
+                    <motion.div
                       key={i}
                       animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
@@ -1229,7 +1229,7 @@ Links/Keywords: ${formData.keywords}`;
                 </div>
               </motion.div>
             ) : (
-              <motion.div 
+              <motion.div
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
