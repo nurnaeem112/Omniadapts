@@ -6,22 +6,22 @@
  */
 
 import { useState, useRef, useEffect, Suspense } from 'react';
-import { GoogleGenAI } from "@google/genai";
+
 import { supabase } from '@/lib/supabase';
-import { 
-  Send, 
-  Copy, 
-  RefreshCw, 
-  Sparkles, 
-  Twitter, 
-  Linkedin, 
-  Instagram, 
-  Facebook, 
-  Youtube, 
-  Mail, 
-  MessageSquare, 
-  Hash, 
-  Layout, 
+import {
+  Send,
+  Copy,
+  RefreshCw,
+  Sparkles,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Facebook,
+  Youtube,
+  Mail,
+  MessageSquare,
+  Hash,
+  Layout,
   ExternalLink,
   Check,
   Plus,
@@ -194,10 +194,10 @@ function ToolContent() {
       sessionStorage.setItem('omni_results', JSON.stringify(results));
       sessionStorage.setItem('omni_viewMode', viewMode);
       sessionStorage.setItem('omni_activeTab', activeTab);
-      
+
       if (error) sessionStorage.setItem('omni_error', error);
       else sessionStorage.removeItem('omni_error');
-      
+
       if (activePlatform) sessionStorage.setItem('omni_activePlatform', activePlatform);
       else sessionStorage.removeItem('omni_activePlatform');
     }
@@ -310,7 +310,7 @@ function ToolContent() {
   };
 
   const togglePlatform = (id: string) => {
-    setSelectedPlatforms(prev => 
+    setSelectedPlatforms(prev =>
       prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
     );
   };
@@ -348,11 +348,9 @@ function ToolContent() {
     setActiveTab('output');
 
     try {
-      const apiKey = "AIzaSyBQFpSVF640-UKxatAtZRVvcKRBLuDWTPU";
-      
-      const ai = new GoogleGenAI({ apiKey });
-      const model = "gemini-3.0-flash"; // Using gemini-3.0-flash as requested
-      
+
+      const model = "gemini-1.5-flash"; // Using gemini-1.5-flash as requested
+
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
         ...customUrls
@@ -360,18 +358,24 @@ function ToolContent() {
 
       const prompt = `Adapt the following product information for these platforms: ${platformNames}.\n\nProduct/Service Name: ${formData.name}\nOne-sentence Description: ${formData.description}\nMain Goal/Intention: ${formData.goal}\nTarget Audience: ${formData.audience}\nProblem Solved: ${formData.problem}\nEmotional Benefit: ${formData.benefit}\nCall to Action: ${formData.cta}\nLinks/Keywords: ${formData.keywords}`;
 
-      const response = await (ai as any).models.generateContent({
-        model: model,
-        contents: prompt,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.7,
-        },
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt,
+          systemInstruction: SYSTEM_INSTRUCTION
+        })
       });
 
-      const text = response.text || '';
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to generate');
+      }
+
+      const text = data.text || '';
       const parsedResults = parseResults(text);
-      
+
       // Save to Supabase
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -404,7 +408,7 @@ function ToolContent() {
       }
 
       setResults(parsedResults);
-      
+
       const firstPlatform = Object.keys(parsedResults)[0];
       if (firstPlatform) {
         setActivePlatform(firstPlatform);
@@ -425,9 +429,9 @@ function ToolContent() {
     for (let i = 1; i < sections.length; i += 2) {
       const platformName = sections[i].trim().toUpperCase();
       const content = sections[i + 1].trim();
-      
-      const platform = PLATFORMS.find(p => 
-        platformName === p.name.toUpperCase() || 
+
+      const platform = PLATFORMS.find(p =>
+        platformName === p.name.toUpperCase() ||
         platformName === p.id.toUpperCase() ||
         platformName.includes(p.name.toUpperCase()) ||
         p.name.toUpperCase().includes(platformName)
@@ -509,7 +513,7 @@ function ToolContent() {
   return (
     <div className="py-12 min-h-screen relative">
       <div className="absolute inset-0 bg-grid pointer-events-none" />
-      
+
       <div className="lg:hidden flex p-1.5 bg-neutral border border-secondary/10 rounded-full mb-8 mx-4 relative z-10">
         <button
           onClick={() => setActiveTab('input')}
@@ -536,7 +540,7 @@ function ToolContent() {
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="p-6 bg-red-50 border border-red-100 text-red-600 rounded-[2.5rem] text-xs font-black uppercase tracking-widest flex items-center gap-4 shadow-sm mb-8"
@@ -548,7 +552,7 @@ function ToolContent() {
               <p className="text-red-800 mb-0.5">Generation Error</p>
               <p className="text-red-500/80 font-bold normal-case">{error}</p>
             </div>
-            <button 
+            <button
               onClick={() => setError(null)}
               className="p-2 hover:bg-red-100 rounded-full transition-colors"
             >
@@ -563,7 +567,7 @@ function ToolContent() {
           "lg:col-span-5 space-y-8 lg:sticky lg:top-24",
           activeTab !== 'input' && "hidden lg:block"
         )}>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-primary rounded-[3rem] border border-secondary/10 p-8 shadow-sm space-y-8"
@@ -577,7 +581,7 @@ function ToolContent() {
                 <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Define your product essence</p>
               </div>
             </div>
-            
+
             <div className="space-y-6">
               <div className="group">
                 <label className="flex items-center gap-1.5 text-[10px] font-black text-secondary/40 uppercase tracking-widest mb-2 group-focus-within:text-secondary transition-colors">
@@ -671,7 +675,7 @@ function ToolContent() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -687,7 +691,7 @@ function ToolContent() {
                   <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Select your targets</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={selectAll}
                 className="text-[10px] font-black text-secondary uppercase tracking-widest hover:text-secondary/60 transition-colors"
               >
@@ -711,9 +715,9 @@ function ToolContent() {
                     {platform.icon ? (
                       <platform.icon className={cn("w-full h-full", selectedPlatforms.includes(platform.id) ? "text-neutral" : "text-secondary")} />
                     ) : (
-                      <img 
-                        src={platform.iconUrl} 
-                        alt={platform.name} 
+                      <img
+                        src={platform.iconUrl}
+                        alt={platform.name}
                         className={cn("w-full h-full object-contain", selectedPlatforms.includes(platform.id) ? "brightness-0 invert" : "")}
                         referrerPolicy="no-referrer"
                       />
@@ -721,7 +725,7 @@ function ToolContent() {
                   </div>
                   <span className="truncate w-full text-center">{platform.name.split(' ')[0]}</span>
                   {selectedPlatforms.includes(platform.id) && (
-                    <motion.div 
+                    <motion.div
                       layoutId="active-check"
                       className="absolute top-2 right-2"
                     >
@@ -755,23 +759,23 @@ function ToolContent() {
               </div>
               <AnimatePresence>
                 {customUrls.length > 0 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     className="flex flex-wrap gap-2 pt-2"
                   >
                     {customUrls.map((url) => (
-                      <motion.div 
+                      <motion.div
                         layout
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
-                        key={url} 
+                        key={url}
                         className="flex items-center gap-2 px-4 py-2 bg-neutral border border-secondary/10 rounded-full text-[10px] font-black text-secondary/60 group uppercase tracking-widest"
                       >
                         <span className="max-w-[120px] truncate">{url.replace('https://', '')}</span>
-                        <button 
+                        <button
                           onClick={() => removeUrl(url)}
                           className="hover:text-red-500 transition-colors"
                         >
@@ -819,7 +823,7 @@ function ToolContent() {
                   <h2 className="text-lg font-black text-secondary tracking-tight">History</h2>
                   <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Recent generations</p>
                 </div>
-                <button 
+                <button
                   onClick={clearHistory}
                   className="text-[10px] font-black text-red-500/40 hover:text-red-500 uppercase tracking-widest transition-colors"
                 >
@@ -857,9 +861,9 @@ function ToolContent() {
                             {p.icon ? (
                               <p.icon className="w-full h-full text-secondary opacity-40" />
                             ) : (
-                              <img 
-                                src={p.iconUrl} 
-                                alt={p.name} 
+                              <img
+                                src={p.iconUrl}
+                                alt={p.name}
                                 className="w-full h-full object-contain opacity-40"
                                 referrerPolicy="no-referrer"
                               />
@@ -875,7 +879,7 @@ function ToolContent() {
           )}
         </div>
 
-        <div 
+        <div
           ref={resultsRef}
           className={cn(
             "lg:col-span-7 space-y-12",
@@ -884,7 +888,7 @@ function ToolContent() {
         >
           <AnimatePresence mode="wait">
             {Object.keys(results).length > 0 ? (
-              <motion.div 
+              <motion.div
                 key="results"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -923,7 +927,7 @@ function ToolContent() {
                       <div className="relative group/scroll">
                         <AnimatePresence>
                           {canScrollLeft && (
-                            <motion.button 
+                            <motion.button
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.8 }}
@@ -934,8 +938,8 @@ function ToolContent() {
                             </motion.button>
                           )}
                         </AnimatePresence>
-                        
-                        <div 
+
+                        <div
                           ref={scrollRef}
                           onScroll={checkScroll}
                           className="flex items-center gap-3 overflow-x-auto scrollbar-custom pb-4 px-10 scroll-smooth"
@@ -964,9 +968,9 @@ function ToolContent() {
                                   {platform.icon ? (
                                     <platform.icon className={cn("w-full h-full", activePlatform === platform.id ? "text-neutral" : "text-secondary")} />
                                   ) : (
-                                    <img 
-                                      src={platform.iconUrl} 
-                                      alt={platform.name} 
+                                    <img
+                                      src={platform.iconUrl}
+                                      alt={platform.name}
                                       className={cn("w-full h-full object-contain", activePlatform === platform.id ? "brightness-0 invert" : "")}
                                       referrerPolicy="no-referrer"
                                     />
@@ -979,7 +983,7 @@ function ToolContent() {
 
                         <AnimatePresence>
                           {canScrollRight && (
-                            <motion.button 
+                            <motion.button
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.8 }}
@@ -999,7 +1003,7 @@ function ToolContent() {
                         .map((platform) => {
                           const res = results[platform.id];
                           return (
-                            <motion.div 
+                            <motion.div
                               key={platform.id}
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -1012,9 +1016,9 @@ function ToolContent() {
                                     {platform.icon ? (
                                       <platform.icon className="w-full h-full text-secondary" />
                                     ) : (
-                                      <img 
-                                        src={platform.iconUrl} 
-                                        alt={platform.name} 
+                                      <img
+                                        src={platform.iconUrl}
+                                        alt={platform.name}
                                         className="w-full h-full object-contain"
                                         referrerPolicy="no-referrer"
                                       />
@@ -1025,7 +1029,7 @@ function ToolContent() {
                                     <p className="text-[10px] font-bold text-secondary/40 uppercase tracking-widest">Platform Specific Adaptation</p>
                                   </div>
                                 </div>
-                                <button 
+                                <button
                                   onClick={() => copyAll(platform.id)}
                                   className="p-3.5 bg-primary border border-secondary/10 rounded-full hover:bg-secondary transition-all group relative shadow-sm"
                                   title="Copy All"
@@ -1037,7 +1041,7 @@ function ToolContent() {
                                   )}
                                 </button>
                               </div>
-                              
+
                               <div className="p-10 space-y-10">
                                 <div className="relative pl-6">
                                   <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary rounded-full opacity-20" />
@@ -1050,7 +1054,7 @@ function ToolContent() {
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Hook / Headline</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.title, `${platform.id}-title`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1066,7 +1070,7 @@ function ToolContent() {
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Body Copy</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.description, `${platform.id}-desc`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1082,7 +1086,7 @@ function ToolContent() {
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Keywords & Tags</label>
-                                    <button 
+                                    <button
                                       onClick={() => copyToClipboard(res.tags, `${platform.id}-tags`)}
                                       className="text-[10px] font-black text-secondary/40 hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest"
                                     >
@@ -1107,7 +1111,7 @@ function ToolContent() {
                       .map((platform) => {
                         const res = results[platform.id];
                         return (
-                          <motion.div 
+                          <motion.div
                             key={platform.id}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -1119,9 +1123,9 @@ function ToolContent() {
                                   {platform.icon ? (
                                     <platform.icon className="w-full h-full text-secondary" />
                                   ) : (
-                                    <img 
-                                      src={platform.iconUrl} 
-                                      alt={platform.name} 
+                                    <img
+                                      src={platform.iconUrl}
+                                      alt={platform.name}
                                       className="w-full h-full object-contain"
                                       referrerPolicy="no-referrer"
                                     />
@@ -1129,7 +1133,7 @@ function ToolContent() {
                                 </div>
                                 <h3 className="text-lg font-black text-secondary tracking-tight">{platform.name}</h3>
                               </div>
-                              <button 
+                              <button
                                 onClick={() => copyAll(platform.id)}
                                 className="p-2.5 bg-primary border border-secondary/10 rounded-full hover:bg-secondary transition-all group relative"
                               >
@@ -1169,7 +1173,7 @@ function ToolContent() {
                 )}
               </motion.div>
             ) : isGenerating ? (
-              <motion.div 
+              <motion.div
                 key="loading"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -1177,7 +1181,7 @@ function ToolContent() {
                 className="h-full min-h-[700px] flex flex-col items-center justify-center text-center p-16 bg-primary rounded-[4rem] border border-secondary/10 shadow-sm"
               >
                 <div className="relative mb-12">
-                  <motion.div 
+                  <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                     className="w-32 h-32 border-4 border-secondary/5 border-t-secondary rounded-full"
@@ -1192,7 +1196,7 @@ function ToolContent() {
                 </p>
               </motion.div>
             ) : (
-              <motion.div 
+              <motion.div
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
