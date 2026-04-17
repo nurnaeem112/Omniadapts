@@ -349,7 +349,7 @@ function ToolContent() {
 
     try {
 
-      const model = "gemini-1.5-pro"; // Using gemini-1.5-flash as requested
+      const model = "gemini-1.5-flash"; // Using gemini-1.5-flash as requested
 
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
