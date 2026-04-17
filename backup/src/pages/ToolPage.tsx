@@ -330,7 +330,7 @@ export default function ToolPage() {
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const model = "gemini-1.5-flash";
+      const model = "gemini-1.5-flash-latest";
 
       const platformNames = [
         ...PLATFORMS.filter(p => selectedPlatforms.includes(p.id)).map(p => p.name),
