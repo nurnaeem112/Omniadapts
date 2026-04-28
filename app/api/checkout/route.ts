@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     const baseUrl = getBaseUrl();
     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
     const successUrl = `${normalizedBaseUrl}/profile?checkout=success`;
-    
+
     console.log('Success URL:', successUrl);
 
     const checkout = await polar.checkouts.create({
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       successUrl: successUrl,
       customerEmail: userEmail,
       metadata: {
-        userId: userId,
+        user_Id: userId,
       },
     });
 
@@ -51,15 +51,15 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error('--- Checkout Error ---');
     console.error('Error message:', error.message);
-    
+
     if (error.response && typeof error.response.text === 'function') {
       try {
         const details = await error.response.text();
         console.error('Polar Response Error:', details);
-      } catch (e) {}
+      } catch (e) { }
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to create checkout session',
       details: error?.message || 'Unknown server error'
     }, { status: 500 });
