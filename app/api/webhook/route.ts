@@ -22,8 +22,11 @@ export async function POST(req: Request) {
 
   try {
     const rawBody = await req.text();
-    const headers = Object.fromEntries(req.headers);
-    
+
+    const headers: Record<string, string> = {};
+    req.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
     // Validate the webhook signature
     let event;
     try {
@@ -50,8 +53,8 @@ export async function POST(req: Request) {
 
       if (userId) {
         const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
-          user_metadata: { 
-            plan: planName, 
+          user_metadata: {
+            plan: planName,
             subscription_status: 'active',
             updated_at: new Date().toISOString()
           }

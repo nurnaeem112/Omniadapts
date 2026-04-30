@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Zap, Menu, X, User, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -51,8 +52,8 @@ export default function Navbar() {
     <nav className="glass sticky top-4 z-50 mx-auto mt-4 rounded-full shadow-sm max-w-[1200px] w-[calc(100%-2rem)]">
       <div className="px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Zap className="w-5 h-5 text-neutral" />
+          <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Image src="/logo.png" alt="OmniAdapts Logo" width={32} height={32} className="object-contain" />
           </div>
           <span className="text-xl font-black tracking-tight text-secondary">OmniAdapts</span>
         </Link>

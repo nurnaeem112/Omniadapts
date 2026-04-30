@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       successUrl: successUrl,
       customerEmail: userEmail,
       metadata: {
-        user_Id: userId,
+        userId: userId,
       },
     });
 
