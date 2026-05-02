@@ -142,7 +142,7 @@ export default function Navbar() {
               href={link.path}
               className={cn(
                 "block text-base font-medium transition-colors",
-                location.pathname === link.path ? "text-secondary font-bold" : "text-secondary/70"
+                pathname === link.path ? "text-secondary font-bold" : "text-secondary/70"
               )}
               onClick={() => setIsOpen(false)}
             >

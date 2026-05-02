@@ -18,9 +18,6 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "OmniAdapts",
   description: "Transform your content with AI",
-  icons: {
-    icon: '/logo.png',
-  },
 };
 
 export default function RootLayout({
