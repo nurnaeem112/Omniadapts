@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks';
 
 export async function POST(req: Request) {
-  const supabaseUrl = process.env.SUPABASE_URL || 'https://nzknubmeznjlupcvvzag.supabase.co';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const webhookSecret = process.env.POLAR_WEBHOOK_SECRET;
 
