@@ -200,7 +200,7 @@ export default function PricingPage() {
             </div>
             <div className="space-y-4">
               <h4 className="text-lg font-black text-secondary tracking-tight uppercase">Is there a free trial?</h4>
-              <p className="text-secondary/60 leading-relaxed font-medium">Our Pro plan comes with a 7-day free trial so you can test all the premium features before committing.</p>
+              <p className="text-secondary/60 leading-relaxed font-medium">We don&apos;t offer a free trial. However, you can start on our free plan and upgrade whenever you&apos;re ready to unlock more features.</p>
             </div>
             <div className="space-y-4">
               <h4 className="text-lg font-black text-secondary tracking-tight uppercase">What is custom website context?</h4>

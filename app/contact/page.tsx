@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Copy, ExternalLink, CheckCheck, ArrowRight } from 'lucide-react';
+import { Mail, Copy, CheckCheck } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
@@ -27,9 +27,6 @@ export default function ContactPage() {
     }
   };
 
-  const handleOpenComposer = () => {
-    window.location.href = `mailto:${EMAIL}`;
-  };
 
   return (
     <div className="flex flex-col min-h-screen py-24 relative overflow-hidden">
@@ -118,42 +115,23 @@ export default function ContactPage() {
               {/* Divider */}
               <div className="w-24 h-px bg-secondary/10" />
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md">
-                {/* Copy Button */}
-                <button
-                  onClick={handleCopy}
-                  className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-secondary/15 bg-secondary/5 text-secondary font-black uppercase text-[11px] tracking-[0.2em] hover:bg-secondary/10 hover:border-secondary/30 transition-all duration-300 group/btn"
-                >
-                  {copied ? (
-                    <>
-                      <CheckCheck className="w-4 h-4 text-emerald-400" />
-                      <span className="text-emerald-400">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
-                      Copy Email
-                    </>
-                  )}
-                </button>
-
-                {/* Open Composer Button */}
-                <button
-                  onClick={handleOpenComposer}
-                  className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-secondary text-neutral font-black uppercase text-[11px] tracking-[0.2em] hover:bg-secondary/90 transition-all duration-300 shadow-xl shadow-secondary/20 group/btn"
-                >
-                  <ExternalLink className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
-                  Open Email App
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
-                </button>
-              </div>
-
-              {/* Fine print */}
-              <p className="text-secondary/30 text-xs font-medium max-w-xs leading-relaxed">
-                Clicking &quot;Open Email App&quot; will launch your default mail client
-                with our address already filled in as the recipient.
-              </p>
+              {/* Copy Button */}
+              <button
+                onClick={handleCopy}
+                className="flex items-center justify-center gap-2.5 px-10 py-4 rounded-full border border-secondary/15 bg-secondary/5 text-secondary font-black uppercase text-[11px] tracking-[0.2em] hover:bg-secondary/10 hover:border-secondary/30 transition-all duration-300 group/btn"
+              >
+                {copied ? (
+                  <>
+                    <CheckCheck className="w-4 h-4 text-emerald-400" />
+                    <span className="text-emerald-400">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
+                    Copy Email
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </motion.div>
