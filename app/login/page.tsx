@@ -111,7 +111,7 @@ function LoginForm() {
           <div className="space-y-3">
             <div className="flex items-center justify-between px-6">
               <label className="text-[10px] font-black text-secondary/40 uppercase tracking-[0.2em]">Password</label>
-              <Link href="#" className="text-[10px] font-black text-secondary/60 hover:text-secondary uppercase tracking-[0.1em]">Forgot password?</Link>
+              <Link href="/forgot-password" className="text-[10px] font-black text-secondary/60 hover:text-secondary uppercase tracking-[0.1em]">Forgot password?</Link>
             </div>
             <div className="relative">
               <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/40" />
