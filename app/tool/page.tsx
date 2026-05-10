@@ -15,7 +15,6 @@ import {
   Sparkles,
   Twitter,
   Linkedin,
-  Instagram,
   Facebook,
   Youtube,
   Mail,
@@ -57,8 +56,6 @@ type Platform = {
 const PLATFORMS: Platform[] = [
   { id: 'twitter', name: 'Twitter (X)', iconUrl: 'https://cdn.simpleicons.org/x', color: 'hover:text-black' },
   { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'hover:text-blue-600' },
-  { id: 'instagram_feed', name: 'Instagram Feed', iconUrl: 'https://cdn.simpleicons.org/instagram', color: 'hover:text-pink-600' },
-  { id: 'instagram_stories', name: 'Instagram Stories', iconUrl: 'https://cdn.simpleicons.org/instagram', color: 'hover:text-orange-500' },
   { id: 'tiktok', name: 'TikTok', iconUrl: 'https://cdn.simpleicons.org/tiktok', color: 'hover:text-black' },
   { id: 'facebook', name: 'Facebook', iconUrl: 'https://cdn.simpleicons.org/facebook', color: 'hover:text-blue-700' },
   { id: 'pinterest', name: 'Pinterest', iconUrl: 'https://cdn.simpleicons.org/pinterest', color: 'hover:text-red-600' },
@@ -75,17 +72,15 @@ For every platform requested by the user, you must generate unique, platform-app
 
 1. Twitter (X): Concise, witty, and urgent. Max 280 characters. Use relevant hashtags (max 2-3). Focus on a hook.
 2. LinkedIn: Professional, insightful, and value-driven. Longer form (1000-2000 chars). Start with a question or a bold statement. Use line breaks for readability. Hashtags are professional (#Innovation, #Tech).
-3. Instagram (Feed): Visually descriptive, emotional, and community-focused. Copy should complement an image. Use line breaks and emojis strategically. Place key hashtags in the first comment or at the end (up to 15-20).
-4. Instagram (Stories): Ultra-short, casual, and urgent. Use "Question stickers" or "Poll" formats in the text. Create a sense of "right now."
-5. TikTok: Script-based. Focus on the first 3 seconds (the hook). Fast-paced, trending audio references, and a clear call-to-action. Use relevant text overlays.
-6. Facebook: Storytelling, community-oriented, and slightly more personal. Good for longer posts, event sharing, and fostering discussion.
-7. Pinterest: Descriptive, keyword-rich, and aspirational. Write like a search engine optimized description. Focus on the solution the pin provides. Include keywords and hashtags.
-8. Reddit: Authentic, non-salesy, and value-adding. Write in a conversational tone. Never sound like an ad. Focus on solving a problem or sharing a personal experience related to the product. You must include "[Discussion]" or "[Review]" context.
-9. YouTube (Description): SEO-focused. The first 150 characters are crucial. Include links (timestamp, socials), a brief summary, and a block of long-tail keyword tags.
-10. Discord/Telegram: Casual, community-first. Short blasts. Focus on exclusivity ("Community only") and driving engagement (reactions, replies).
-11. Email Newsletter: Compelling subject line first. Body should be conversational and value-packed. Focus on a single call-to-action.
-12. Quora: Answer-based. Use the "Problem -> Solution -> Product" framework. Provide massive value in the answer first, then subtly introduce the product as *a* solution.
-13. Custom Website/URL: If a specific website URL is provided as a target, generate a high-converting blog post or landing page copy that fits the existing style and content of that specific website.
+3. TikTok: Script-based. Focus on the first 3 seconds (the hook). Fast-paced, trending audio references, and a clear call-to-action. Use relevant text overlays.
+4. Facebook: Storytelling, community-oriented, and slightly more personal. Good for longer posts, event sharing, and fostering discussion.
+5. Pinterest: Descriptive, keyword-rich, and aspirational. Write like a search engine optimized description. Focus on the solution the pin provides. Include keywords and hashtags.
+6. Reddit: Authentic, non-salesy, and value-adding. Write in a conversational tone. Never sound like an ad. Focus on solving a problem or sharing a personal experience related to the product. You must include "[Discussion]" or "[Review]" context.
+7. YouTube (Description): SEO-focused. The first 150 characters are crucial. Include links (timestamp, socials), a brief summary, and a block of long-tail keyword tags.
+8. Discord/Telegram: Casual, community-first. Short blasts. Focus on exclusivity ("Community only") and driving engagement (reactions, replies).
+9. Email Newsletter: Compelling subject line first. Body should be conversational and value-packed. Focus on a single call-to-action.
+10. Quora: Answer-based. Use the "Problem -> Solution -> Product" framework. Provide massive value in the answer first, then subtly introduce the product as *a* solution.
+11. Custom Website/URL: If a specific website URL is provided as a target, generate a high-converting blog post or landing page copy that fits the existing style and content of that specific website.
 
 Output Structure:
 For each platform (including custom URLs), output the copy clearly separated by a header (e.g., --- TWITTER --- or --- https://example.com ---).

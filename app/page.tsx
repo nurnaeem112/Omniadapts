@@ -24,8 +24,6 @@ function cn(...inputs: ClassValue[]) {
 const PLATFORMS = [
   { id: 'twitter', name: 'Twitter (X)', iconUrl: 'https://cdn.simpleicons.org/x', color: 'text-black' },
   { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'text-blue-600' },
-  { id: 'instagram_feed', name: 'Instagram Feed', iconUrl: 'https://cdn.simpleicons.org/instagram', color: 'text-pink-600' },
-  { id: 'instagram_stories', name: 'Instagram Stories', iconUrl: 'https://cdn.simpleicons.org/instagram', color: 'text-orange-500' },
   { id: 'tiktok', name: 'TikTok', iconUrl: 'https://cdn.simpleicons.org/tiktok', color: 'text-black' },
   { id: 'facebook', name: 'Facebook', iconUrl: 'https://cdn.simpleicons.org/facebook', color: 'text-blue-700' },
   { id: 'pinterest', name: 'Pinterest', iconUrl: 'https://cdn.simpleicons.org/pinterest', color: 'text-red-600' },
@@ -43,7 +41,7 @@ const FAQS = [
   },
   {
     q: "Which platforms are supported?",
-    a: "We support over 12 major platforms including Twitter (X), LinkedIn, Instagram (Feed & Stories), TikTok, Facebook, Pinterest, Reddit, YouTube, Discord, Telegram, and Email Newsletters."
+    a: "We support 10 major platforms including Twitter (X), LinkedIn, TikTok, Facebook, Pinterest, Reddit, YouTube, Discord, Telegram, and Email Newsletters."
   },
   {
     q: "Can I use my own website as context?",
