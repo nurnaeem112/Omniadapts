@@ -137,8 +137,12 @@ export default function PricingPage() {
               )}
 
               {plan.badge && !plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-2 bg-secondary/10 text-secondary rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-secondary/20 shadow-sm">
-                  {plan.badge}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-8 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full text-sm font-black uppercase tracking-[0.15em] border-2 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.3)] z-20 whitespace-nowrap transform hover:scale-105 transition-all duration-300">
+                  <span className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    {plan.badge}
+                    <Sparkles className="w-4 h-4" />
+                  </span>
                 </div>
               )}
 
