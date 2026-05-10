@@ -17,7 +17,7 @@ export const PRICING_PLANS = [
   },
   {
     id: 'monthly',
-    polarProductId: 'd0f38424-8794-44cb-b815-b69aa6c538d9',
+    polarProductId: 'ebdcfdcb-6d68-4bcf-afb4-cc0f222c144c',
     name: '1 Month',
     price: '7.99',
     period: 'month',
@@ -36,7 +36,7 @@ export const PRICING_PLANS = [
   },
   {
     id: 'quarterly',
-    polarProductId: '1caffc74-ba92-424e-a813-3ca5d0f9b027',
+    polarProductId: 'e07eaedf-c669-4ce9-88bc-2adadb070cde',
     name: '3 Months',
     price: '19.17',
     period: '3 months',
