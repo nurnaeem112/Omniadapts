@@ -1,50 +1,15 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Clock, User, ArrowRight, Sparkles, Zap, Target } from 'lucide-react';
+import { BookOpen, Calendar, Clock, User, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { BLOG_POSTS } from './blogData';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-const BLOG_POSTS = [
-  {
-    id: 1,
-    title: "How to Adapt Your Marketing Message for Every Social Platform",
-    excerpt: "Learn the secrets of platform-specific content adaptation and why a one-size-fits-all approach is killing your engagement.",
-    author: "Marketing Expert",
-    date: "Mar 28, 2026",
-    readTime: "5 min read",
-    image: "https://picsum.photos/seed/marketing/800/450",
-    category: "Strategy",
-    icon: Target
-  },
-  {
-    id: 2,
-    title: "The Rise of AI in Content Creation: A Guide for Modern Marketers",
-    excerpt: "Explore how AI tools like OmniAdapts are revolutionizing the way we create and distribute content across digital channels.",
-    author: "AI Strategist",
-    date: "Mar 25, 2026",
-    readTime: "7 min read",
-    image: "https://picsum.photos/seed/ai/800/450",
-    category: "Technology",
-    icon: Sparkles
-  },
-  {
-    id: 3,
-    title: "10 Tips for Writing High-Converting Social Media Copy",
-    excerpt: "From hooks to calls-to-action, discover the essential elements of copy that actually drives results on social media.",
-    author: "Copywriter",
-    date: "Mar 20, 2026",
-    readTime: "4 min read",
-    image: "https://picsum.photos/seed/copy/800/450",
-    category: "Copywriting",
-    icon: Zap
-  }
-];
 
 export default function BlogPage() {
   return (
