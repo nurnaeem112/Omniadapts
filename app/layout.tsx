@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppWrapper from "@/components/AppWrapper";
+import Script from "next/script";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +32,17 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-primary flex flex-col`}
       >
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-Q36ZGLZVGJ" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-Q36ZGLZVGJ');
+          `}
+        </Script>
+
         <AppWrapper>
           <Navbar />
           <main className="flex-1 max-w-[1200px] mx-auto w-full px-4 pt-8">
